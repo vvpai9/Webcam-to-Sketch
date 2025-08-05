@@ -1,19 +1,53 @@
 import cv2
 
-cap = cv2.VideoCapture(0)
-
-while True:
-    ret, frame = cap.read()
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+def sketchify(image):
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     inv = 255 - gray
     blur = cv2.GaussianBlur(inv, (21, 21), 0)
     sketch = cv2.divide(gray, 255 - blur, scale=256)
+    return sketch
 
-    cv2.imshow("Webcam", frame)
+def webcam_mode():
+    cap = cv2.VideoCapture(0)
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
+        sketch = sketchify(frame)
+
+        cv2.imshow("Webcam", frame)
+        cv2.imshow("Sketch", sketch)
+
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
+
+def image_mode(image_path):
+    image = cv2.imread(image_path)
+    if image is None:
+        print("Error: Unable to load image. Please check the path.")
+        return
+
+    sketch = sketchify(image)
+
+    cv2.imshow("Original Image", image)
     cv2.imshow("Sketch", sketch)
-    
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
-cap.release()
-cv2.destroyAllWindows()
+if __name__ == "__main__":
+    print("Select mode:")
+    print("1. Webcam")
+    print("2. Image")
+
+    choice = input("Enter 1 or 2: ")
+
+    if choice == '1':
+        webcam_mode()
+    elif choice == '2':
+        path = input("Enter path to image: ")
+        image_mode(path)
+    else:
+        print("Invalid choice. Exiting.")
