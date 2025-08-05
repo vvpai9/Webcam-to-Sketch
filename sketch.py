@@ -38,16 +38,28 @@ def image_mode(image_path):
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    print("Select mode:")
-    print("1. Webcam")
-    print("2. Image")
-
-    choice = input("Enter 1 or 2: ")
-
-    if choice == '1':
-        webcam_mode()
-    elif choice == '2':
-        path = input("Enter path to image: ")
-        image_mode(path)
-    else:
-        print("Invalid choice. Exiting.")
+    try:
+        while True:
+            print("Select mode:")
+            print("1. Webcam")
+            print("2. Image")
+            print("0. Exit")
+        
+            choice = input("Enter choice: ")
+        
+            if choice == '1':
+                webcam_mode()
+            elif choice == '2':
+                path = input("Enter path to image: ")
+                image_mode(path)
+            elif choice == '0':
+                break
+            else:
+                print("Invalid choice.")
+    except KeyboardInterrupt:
+        print("User interrupted the program.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        cv2.destroyAllWindows()
+        print("Exiting the program.")
