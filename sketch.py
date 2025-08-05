@@ -9,6 +9,7 @@ while True:
     blur = cv2.GaussianBlur(inv, (21, 21), 0)
     sketch = cv2.divide(gray, 255 - blur, scale=256)
 
+    cv2.imshow("Webcam", frame)
     cv2.imshow("Sketch", sketch)
     
     if cv2.waitKey(1) & 0xFF == ord('q'):
