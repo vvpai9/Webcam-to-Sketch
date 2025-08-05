@@ -27,7 +27,8 @@ Then choose your mode:
 Select mode:
 1. Webcam
 2. Image
-Enter 1 or 2:
+0. Exit
+Enter choice:
 ```
 - Webcam Mode: Displays live video and sketch feed. Press ```q``` to quit.
 - Image Mode: Enter the image path when prompted. Displays original and sketch version side-by-side.
